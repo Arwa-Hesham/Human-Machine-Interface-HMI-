@@ -36,58 +36,114 @@ Activating an LED or buzzer when a reading exceeds its configured threshold.
 The system is organized into a three-layer architecture that separates the main application logic from the hardware control and low-level drivers.
 
 ```plantuml
-
 @startuml
-title **Three-Layer Embedded Software Architecture**
-left to right direction
+' STYLING SETUP
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam nodesep 50
+skinparam ranksep 50
 
-skinparam rectangle {
-  BorderColor black
-  BackgroundColor<<App>> Orange
-  BackgroundColor<<HAL>> LightYellow
-  BackgroundColor<<MCAL>> SkyBlue
-  RoundCorner 15
-}
-skinparam componentStyle rectangle
-
-' Application Layer
-rectangle "Application Layer" <<App>> as AppLayer {
-  [main.c] as Main <<App>>
+' COLORS
+skinparam package {
+    BackgroundColor<<Application>> HoneyDew
+    BackgroundColor<<HAL>> Lavender
+    BackgroundColor<<MCAL>> LightGreen
+    BackgroundColor<<Common>> LightGray
 }
 
-' HAL Layer
-rectangle "HAL Layer\n(Hardware Abstraction Layer)" <<HAL>> as HAL_Layer {
-  [Button.c] as Button <<HAL>>
-  [LED.c] as LED <<HAL>>
-  [Buzzer.c] as Buzzer <<HAL>>
-  [LCD.c] as LCD <<HAL>>
-  [LDR.c] as LDR <<HAL>>
-  [LM35.c] as LM35 <<HAL>>
+title Embedded Software Architecture - Layered View
+
+' ---------------------------------------------------------
+' 1. APPLICATION LAYER
+' ---------------------------------------------------------
+package "Application Layer" <<Application>> {
+    file "HMI.ino"
 }
 
-' MCAL Layer
-rectangle "MCAL Layer\n(Microcontroller Abstraction Layer)" <<MCAL>> as MCAL_Layer {
-  [GPIO.c] as GPIO <<MCAL>>
-  [ADC.c] as ADC <<MCAL>>
+' ---------------------------------------------------------
+' 2. HAL LAYER
+' ---------------------------------------------------------
+package "HAL Layer" <<HAL>> {
+    
+    rectangle "Alert Modules" {
+        file "led.h"
+        file "led.ino"
+        file "buzzer.h"
+        file "buzzer.ino"
+    }
+    
+    rectangle "Display Modules" {
+        file "lcd.h"
+        file "lcd.ino"
+        file "button.h"
+        file "button.ino"
+        
+    }
+
+    rectangle "Sensors Modules" {
+        file "lm35.h"
+        file "lm35.ino"
+        file "ldr.h"
+        file "ldr.ino"
+    }
+   
 }
 
-' Flow: Application Layer → HAL Layer
-Main -down-> Button : Read button input
-Main -down-> LED : Control LED
-Main -down-> Buzzer : Control buzzer
-Main -down-> LCD : Display data
-Main -down-> LDR : Read light intensity
-Main -down-> LM35 : Read temperature
+' ---------------------------------------------------------
+' 3. MCAL LAYER
+' ---------------------------------------------------------
+package "MCAL Layer" <<MCAL>> {
+    
+    rectangle "GPIO Driver" {
+        file "gpio.h"
+        file "gpio.ino"
+    }
 
-' Flow: HAL Layer → MCAL Layer
-Button -down-> GPIO : Read pin
-LED -down-> GPIO : Write pin
-Buzzer -down-> GPIO : Write pin
-LCD -down-> GPIO : Write port/pins
-LDR -down-> ADC : ADC conversion
-LM35 -down-> ADC : ADC conversion
-LDR -down-> GPIO : Sensor input
-LM35 -down-> GPIO : Sensor input
+    rectangle "ADC Driver" {
+        file "ADC.h"
+        file "ADC.ino"
+    }
+}
+
+' ---------------------------------------------------------
+' 4. COMMON LAYER (Side Layer)
+' ---------------------------------------------------------
+package "Common Files" <<Common>> {
+    file "macros_types.h"
+}
+
+' ---------------------------------------------------------
+' CONNECTIONS
+' ---------------------------------------------------------
+
+' 1. Main to HAL Headers
+"HMI.ino" --> "led.h"
+"HMI.ino" --> "lcd.h"
+"HMI.ino" --> "lm35.h"
+"HMI.ino" --> "button.h"
+"HMI.ino" --> "buzzer.h"
+"HMI.ino" --> "ldr.h"
+
+' 2. MCAL (ADC) to HAL Modules using ADC
+"ADC.h" -up-> "lm35.h"
+"ADC.h" -up-> "ldr.h"
+"ADC.h" -up-> "button.h"
+
+' 3. MCAL (GPIO) to HAL Modules using GPIO
+"gpio.h" -up-> "led.h"
+"gpio.h" -up-> "lcd.h"
+"gpio.h" -up-> "buzzer.h"
+
+' 4. Common layer connections
+"lcd.h" -->"macros_types.h"
+"led.h" -->"macros_types.h"
+"button.h" -->"macros_types.h"
+"buzzer.h" -->"macros_types.h"
+"ldr.h" -->"macros_types.h"
+"lm35.h" -->"macros_types.h"
+"ADC.h" -->"macros_types.h"
+"gpio.h"-->"macros_types.h"
 
 @enduml
 
@@ -189,73 +245,131 @@ stop
 
 ```plantuml
 @startuml
-title "Organized and Colorful Include Structure"
-skinparam componentStyle rectangle
+' STYLING SETUP
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam nodesep 50
+skinparam ranksep 50
 
-' Source Files (Modules) - Blue
-component "main.ino" as main #SkyBlue
-component "lcd.ino" as lcdsrc #SkyBlue
-component "button.ino" as btsrc #SkyBlue
-component "led.ino" as ledsrc #SkyBlue
-component "buzzer.ino" as buzzsrc #SkyBlue
-component "gpio.ino" as gpiosrc #SkyBlue
-component "ADC.ino" as adcsrc #SkyBlue
-component "ldr.ino" as ldrsrc #SkyBlue
-component "lm35.ino" as lm35src #SkyBlue
+' COLORS
+skinparam package {
+    BackgroundColor<<Application>> pink
+    BackgroundColor<<HAL>> Lavender
+    BackgroundColor<<MCAL>> Salmon 
+    BackgroundColor<<Common>> CornflowerBlue
+}
 
-' Header Files - Green
-component "lcd.h" as lcdh #LightGreen
-component "button.h" as bth #LightGreen
-component "led.h" as ledh #LightGreen
-component "buzzer.h" as buzzh #LightGreen
-component "gpio.h" as gpioh #LightGreen
-component "ADC.h" as adch #LightGreen
-component "ldr.h" as ldrh #LightGreen
-component "lm35.h" as lm35h #LightGreen
+title Embedded Software Architecture - Layered View
 
-' Shared Header - Orange
-component "macros_types.h" as macro #Orange
+' ---------------------------------------------------------
+' 1. COMMON LAYER
+' ---------------------------------------------------------
+package "Common Files" <<Common>> {
+    file "macros_types.h"
+}
 
-' Main includes headers
-main ..> lcdh
-main ..> bth
-main ..> ledh
-main ..> buzzh
-main ..> gpioh
-main ..> adch
-main ..> ldrh
-main ..> lm35h
-main ..> macro
+' ---------------------------------------------------------
+' 2. APPLICATION LAYER
+' ---------------------------------------------------------
+package "Application Layer" <<Application>> {
+    file "HMI.ino"
+}
 
-' Modules include their own headers
-lcdsrc ..> lcdh
-btsrc ..> bth
-ledsrc ..> ledh
-buzzsrc ..> buzzh
-gpiosrc ..> gpioh
-adcsrc ..> adch
-ldrsrc ..> ldrh
-lm35src ..> lm35h
+' ---------------------------------------------------------
+' 3. HAL LAYER
+' ---------------------------------------------------------
+package "HAL Layer" <<HAL>> {
+    
+    rectangle "LCD Module" {
+        file "lcd.h"
+        file "lcd.ino"
+    }
+    
+    rectangle "Button Module" {
+        file "button.h"
+        file "button.ino"
+    }
+    
+    rectangle "LED Module" {
+        file "led.h"
+        file "led.ino"
+    }
+    
+    rectangle "Buzzer Module" {
+        file "buzzer.h"
+        file "buzzer.ino"
+    }
+    
+    rectangle "LDR Module" {
+        file "ldr.h"
+        file "ldr.ino"
+    }
+
+    rectangle "LM35 Module" {
+        file "lm35.h"
+        file "lm35.ino"
+    }
+}
+
+' ---------------------------------------------------------
+' 4. MCAL LAYER
+' ---------------------------------------------------------
+package "MCAL Layer" <<MCAL>> {
+    
+    rectangle "GPIO Driver" {
+        file "gpio.h"
+        file "gpio.ino"
+    }
+    
+    rectangle "ADC Driver" {
+        file "ADC.h"
+        file "ADC.ino"
+    }
+}
+
+' ---------------------------------------------------------
+' CONNECTIONS
+' ---------------------------------------------------------
+' Main includes HAL and Common headers
+"HMI.ino" ..> "lcd.h"
+"HMI.ino" ..> "button.h"
+"HMI.ino" ..> "led.h"
+"HMI.ino" ..> "buzzer.h"
+"HMI.ino" ..> "gpio.h"
+"HMI.ino" ..> "ADC.h"
+"HMI.ino" ..> "ldr.h"
+"HMI.ino" ..> "lm35.h"
+"HMI.ino" ..> "macros_types.h"
+
+' HAL source files include their headers
+"lcd.ino" ..> "lcd.h"
+"button.ino" ..> "button.h"
+"led.ino" ..> "led.h"
+"buzzer.ino" ..> "buzzer.h"
+"gpio.ino" ..> "gpio.h"
+"ADC.ino" ..> "ADC.h"
+"ldr.ino" ..> "ldr.h"
+"lm35.ino" ..> "lm35.h"
 
 ' Header dependencies
-lcdh --> macro
-bth --> gpioh
-bth --> macro
-ledh --> gpioh
-ledh --> macro
-buzzh --> gpioh
-buzzh --> macro
-gpioh --> macro
-adch --> macro
-ldrh --> adch
-ldrh --> gpioh
-ldrh --> macro
-lm35h --> adch
-lm35h --> gpioh
-lm35h --> macro
+"lcd.h" --> "macros_types.h"
+"button.h" --> "gpio.h"
+"button.h" --> "macros_types.h"
+"led.h" --> "gpio.h"
+"led.h" --> "macros_types.h"
+"buzzer.h" --> "gpio.h"
+"buzzer.h" --> "macros_types.h"
+"gpio.h" --> "macros_types.h"
+"ADC.h" --> "macros_types.h"
+"ldr.h" --> "ADC.h"
+"ldr.h" --> "gpio.h"
+"ldr.h" --> "macros_types.h"
+"lm35.h" --> "ADC.h"
+"lm35.h" --> "gpio.h"
+"lm35.h" --> "macros_types.h"
 
 @enduml
-
 ```
 
 ### Configuration
