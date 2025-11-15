@@ -66,8 +66,7 @@ Test Case 7: Limit Crossing Alert
     Continuously monitor outputs as the sensor values cross set thresholds.
     # Assert (Verify the expected outcome)
     LED or buzzer activates immediately as the threshold is crossed; deactivates when back within limits.
-*** Settings ***
-Documentation    LCD Keypad Shield Project with LM35 & LDR Test Cases
+
 
 Test Case 8: Button Debounce & Responsiveness
     [Documentation]    Ensure single button presses are registered once, and no false triggers.
