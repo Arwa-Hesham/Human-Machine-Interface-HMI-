@@ -151,7 +151,13 @@ package "Common Files" <<Common>> {
 
 ### Assumptions & Constraints
 
+Assumptions:
+Users understand how to use the 4 buttons (select sensor, select limit, increment, decrement).
+Users will input sensible upper and lower limit values.
+
+Constrains:
 The microcontroller operates at a stable 16 MHz clock speed.
+Only one analog input can be read at a time, since the ADC is single-channel. This means the system can read either a one sensor value or the LCD shield’s analog button input at any given moment, requiring sequential not simultaneous sampling.
 
 ```plantuml
 @startuml
