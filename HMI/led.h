@@ -1,16 +1,14 @@
-#include <avr/io.h> 
-#include "led.h"
+#ifndef led_H_
+#define led_H_
 
-//led_init
-void led_init(){
-    DDRD |= (1<<7);
-}
-//led_on
-void led_on(){
-    PORTD |= (1<<7);
-}
+#include "macros_types.h"
 
-//led_off
-void led_off(){
-    PORTD &= ~(1<<7);
-}
+#define LEDPORT                  1 
+#define LEDPIN                   4 
+
+/* Functions Prototypes */
+void LedInit(void);
+void LedOn(void);
+void LedOff(void);
+
+#endif /* led_H_ */
