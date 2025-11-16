@@ -58,7 +58,7 @@ title Embedded Software Architecture - Layered View
 ' 1. APPLICATION LAYER
 ' ---------------------------------------------------------
 package "Application Layer" <<Application>> {
-    file "HMI.ino"
+    file "HMI"
 }
 
 ' ---------------------------------------------------------
@@ -67,25 +67,21 @@ package "Application Layer" <<Application>> {
 package "HAL Layer" <<HAL>> {
     
     rectangle "Alert Modules" {
-        file "led.h"
-        file "led.ino"
-        file "buzzer.h"
-        file "buzzer.ino"
+        file "led"
+        file "buzzer"
+
     }
     
     rectangle "Display Modules" {
-        file "lcd.h"
-        file "lcd.ino"
-        file "button.h"
-        file "button.ino"
+        file "lcd"
+        file "button"
+        
         
     }
 
     rectangle "Sensors Modules" {
-        file "lm35.h"
-        file "lm35.ino"
-        file "ldr.h"
-        file "ldr.ino"
+        file "lm35"
+        file "ldr"
     }
    
 }
@@ -94,57 +90,15 @@ package "HAL Layer" <<HAL>> {
 ' 3. MCAL LAYER
 ' ---------------------------------------------------------
 package "MCAL Layer" <<MCAL>> {
-    
-    rectangle "GPIO Driver" {
-        file "gpio.h"
-        file "gpio.ino"
-    }
 
-    rectangle "ADC Driver" {
-        file "ADC.h"
-        file "ADC.ino"
-    }
+        file "gpio"
+        file "ADC"
 }
-
-' ---------------------------------------------------------
-' 4. COMMON LAYER (Side Layer)
-' ---------------------------------------------------------
-package "Common Files" <<Common>> {
-    file "macros_types.h"
-}
-
 ' ---------------------------------------------------------
 ' CONNECTIONS
 ' ---------------------------------------------------------
-
-' 1. Main to HAL Headers
-"HMI.ino" --> "led.h"
-"HMI.ino" --> "lcd.h"
-"HMI.ino" --> "lm35.h"
-"HMI.ino" --> "button.h"
-"HMI.ino" --> "buzzer.h"
-"HMI.ino" --> "ldr.h"
-
-' 2. MCAL (ADC) to HAL Modules using ADC
-"ADC.h" -up-> "lm35.h"
-"ADC.h" -up-> "ldr.h"
-"ADC.h" -up-> "button.h"
-
-' 3. MCAL (GPIO) to HAL Modules using GPIO
-"gpio.h" -up-> "led.h"
-"gpio.h" -up-> "lcd.h"
-"gpio.h" -up-> "buzzer.h"
-
-' 4. Common layer connections
-"lcd.h" -->"macros_types.h"
-"led.h" -->"macros_types.h"
-"button.h" -->"macros_types.h"
-"buzzer.h" -->"macros_types.h"
-"ldr.h" -->"macros_types.h"
-"lm35.h" -->"macros_types.h"
-"ADC.h" -->"macros_types.h"
-"gpio.h"-->"macros_types.h"
-
+"Application Layer" -- "Display Modules"
+"MCAL Layer" -up-"Display Modules"
 @enduml
 
 ```
@@ -152,12 +106,15 @@ package "Common Files" <<Common>> {
 ### Assumptions & Constraints
 
 Assumptions:
-Users understand how to use the 4 buttons (select sensor, select limit, increment, decrement).
-Users will input sensible upper and lower limit values.
+
+- Users understand how to use the 4 buttons (select sensor, select limit, increment, decrement)by pressing one time on one button at a time.
+- Users will input sensible upper and lower limit values.
 
 Constrains:
-The microcontroller operates at a stable 16 MHz clock speed.
-Only one analog input can be read at a time, since the ADC is single-channel. This means the system can read either a one sensor value or the LCD shield’s analog button input at any given moment, requiring sequential not simultaneous sampling.
+
+- The microcontroller operates at a stable 16 MHz clock speed.
+- Only one analog input can be read at a time, since the ADC is single-channel. This means the system can read either a one sensor value or the LCD shield’s analog button input at any given moment, requiring sequential not simultaneous sampling.
+- lcd display only 16*2 characters it allows only display 32 characters on two lines at a time .
 
 ```plantuml
 @startuml
@@ -166,7 +123,9 @@ title System Flowchart - LDR & Temperature Sensor Project
 start
 
 :Power ON System;
-:Initialize MCU (Clock = 16 MHz);
+:Initialize ADC;
+:Initialize led;
+:Initialize buzzer;
 :Initialize LCD Display;
 :Configure Sensors (LDR, Temperature);
 :Initialize 4 Buttons (3 for limits, 1 for display);
@@ -175,12 +134,11 @@ start
 repeat
 
   :Check Sensor Display Button;
-  if (Display Button Pressed?) then (Yes)
-    :Toggle Display Mode (Show temp/LDR/All);
+  if (Display Button Pressed ) then (Yes)
+    :Toggle Display Mode (Show temp/LDR);
   endif
 
-  :Read Temperature Sensor;
-  :Read LDR Sensor;
+  :Read Sensor pin;
 
   :Check Limit Buttons;
   if (Any Limit Button Pressed?) then (Yes)
@@ -189,7 +147,7 @@ repeat
 
   :Compare Sensor Values to Set Limits;
   if (Limits Exceeded?) then (Yes)
-    :Trigger Alert/Action (e.g., LED, Buzzer);
+    :Trigger Alert/Action (LED & Buzzer);
   endif
 
   :Update LCD with Current Readings & Status;
