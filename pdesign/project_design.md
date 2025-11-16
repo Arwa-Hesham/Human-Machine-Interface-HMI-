@@ -170,8 +170,8 @@ stop
 
 ## Implementation of the Module
 
-| Implementation Aspect | Description                                                                                                          |
-|-----------------------|----------------------------------------------------------------------------------------------------------------------|
+| Implementation Aspect | Description                                                                                          |
+|-----------------------|------------------------------------------------------------------------------------------------------|
 | System Initialization | Configures all hardware peripherals at startup, including the ADC, GPIO pins, and the 16×2 LCD. The ADC is set with the required reference voltage and prescaler, buttons are configured as inputs with pull-ups, and the LED/buzzer pin is initialized as an output.|
 | ADC Data Processing   | Initiates ADC conversions, retrieves digital readings, and converts them into physical sensor values (temperature or light intensity) using calibrated scaling formulas. Ensures stable measurements by managing sampling timing and avoiding redundant conversions.|
 | LCD Output Handling   | Formats sensor readings and threshold values into display strings and updates the LCD using low-level command and data functions. Refreshing is optimized to occur only when values change, minimizing flicker and improving readability.|
