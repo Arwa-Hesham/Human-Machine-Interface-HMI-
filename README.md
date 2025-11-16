@@ -7,7 +7,7 @@
 ## 2. Project Code
 
 **GitHub Repository:**
-[submission_repo](https://github.com/Arwa-Hesham/Human-Machine-Interface-HMI-.git))
+[submission_repo](https://github.com/Arwa-Hesham/Human-Machine-Interface-HMI-.git)
 
 **Local Root Directory**
 [link_to_local_root_directory](./HMI/)
