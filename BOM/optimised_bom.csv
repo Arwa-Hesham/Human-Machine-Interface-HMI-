@@ -1,0 +1,14 @@
+Part,Description,Quantity,Manufacturer,Part Number,Datasheet,Price (EGP),Total Price (EGP)
+Microcontroller,"ATmega328P-PU, 8-bit MCU",1,Microchip,ATMEGA328P-PU,chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://makerselectronics.com/wp-content/uploads/2023/02/ATmega8A-Data-Sheet-DS40001974B.pdf,120.00,120.00
+Crystal Oscillator,"16 MHz Crystal Resonator",1,Generic,XTAL-16MHZ,chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://makerselectronics.com/wp-content/uploads/2021/03/datasheet.pdf,5.00,125.00
+Capacitors,"22 pF Ceramic Capacitor (for crystal)",2,Generic,CERA-22PF,https://microohm-eg.com/product/ceramic-capacitor-22pf-50v-5/,0.50,125.50
+Voltage Regulator,"5 V Voltage Regulator (LM7805)",1,STMicroelectronics,L7805CV,https://www.alldatasheet.com/datasheet-pdf/pdf/96532/ETC/VOLTAGEREGULATOR.html,10.00,135.50
+LED,"Blue LED, 3 mm",1,Generic,3MM-BLUE,https://www.alldatasheet.com/view.jsp?Searchword=LED,1.00,136.50
+Resistors,"330 Ω, 0.25 W",1,Generic,330R,,1.50,138.00
+Buzzer,"Active Buzzer, 5V",1,Generic,,https://components101.com/misc/buzzer-pinout-working-datasheet,7.00,145.00
+LCD Module,Character LCD 2x16 Green 1602,1,Generic,1602-GREEN,https://microohm-eg.com/product/character-lcd-2x16-green-1602/,25.00,170.00
+Push Button,"Tactile Push Button Switch",4,Generic,TACT-6x6,https://microohm-eg.com/product/press-4pin-push-button-switch-6x6x7-5mm/,4.00,174.00
+Mini Breadboard,"MB-102 170-point Solderless Breadboard",1,Generic,MB-102,https://microohm-eg.com/product/mini-breadboard-170-pin-syb-170/,35.00,209.00
+Jumper Wires,"Male-to-Male Jumper Wires",5,Generic,JW-MM-65,,5.00,214.00
+Temperature Sensor,"Temperature Humidity Sensor Module(DHT11)",1,Future Electronics,DHT11,chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://cdn.shopify.com/s/files/1/0672/9409/files/Datasheet_DHT11.pdf?733,40.00,254.00
+Ldr Sensor,"Photoresistor LDR",1,Generic,LDR-12MM,chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://cdn.shopify.com/s/files/1/0672/9409/files/LDR_GL5528_DATASHEET.pdf?657,12.00,266.00

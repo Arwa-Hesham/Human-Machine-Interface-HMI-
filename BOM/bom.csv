@@ -1,0 +1,14 @@
+Part,Description,Quantity,Manufacturer,Part Number,Datasheet,Price (EGP),Total Price (EGP)
+Arduino UNO,"Arduino UNO",1,Microchip,"Arduino Uno",https://www.alldatasheet.com/datasheet-pdf/pdf/1943445/ARDUINO/ARDUINO-UNO.html,450.00,450.00
+LCD Keypad Shield,"16x2 LCD with Keypad Shield",1,Generic,,chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://makerhero.com/img/files/download/DFR0009-Datasheet.pdf,120.00,570.00
+LED,"Blue LED, 5mm",1,Every Light Electronics,204-10UBC/S400-A6,,0.50,570.50
+Buzzer,"Active Buzzer, 5V",1,Generic,,https://components101.com/misc/buzzer-pinout-working-datasheet,7.00,577.50
+Resistor,"330 Ohm, 0.25W",1,Yageo,MFR-25FBF52-330R,https://www.vishay.com/docs/28704/axialr.pdf,0.50,578.00
+LM35,"Temperature Sensor",1,Texas Instruments,"LM35DZ",https://www.ti.com/lit/ds/symlink/lm35.pdf,75.00,653.00
+LDR Module,"Photoresistor Module",1,Generic,,chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://components101.com/sites/default/files/component_datasheet/LDR%20Datasheet.pdf,45.00,698.00
+Jumper Wires,"Male-to-Male",11,Generic,JW-MM-65,https://www.sparkfun.com/datasheets/Wires/jumper_wires.pdf,11.00,709.00
+Breadboard,"MB-102 400-point solderless breadboard",1,Generic,MB-102,https://www.sparkfun.com/datasheets/Dev/BB-400.pdf,40.00,749.00
+
+
+
+
